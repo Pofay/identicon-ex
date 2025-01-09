@@ -56,10 +56,7 @@ defmodule Identicon do
   end
 
   def filter_odd_squares(%Identicon.Image{grid: grid} = image) do
-    Enum.filter(grid, fn {code, _index} ->
-      rem(code, 2) == 0
-    end)
-
+    grid = Enum.filter(grid, &is_even?/1)
     %Identicon.Image{image | grid: grid}
   end
 
@@ -78,5 +75,9 @@ defmodule Identicon do
       |> :binary.bin_to_list()
 
     %Identicon.Image{hex: hex}
+  end
+
+  defp is_even?({code, _index}) do
+    rem(code, 2) == 0
   end
 end
